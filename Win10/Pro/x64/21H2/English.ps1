@@ -68,49 +68,6 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
         $RecordFound = Invoke-RestMethod -Uri "${env:API_URI}/v1/windowsoptionalfeature/name/${FeatureName}" -Method Get -Headers $CHeaders
         [System.Int64]$Id = $RecordFound.id
 
-        <# ARCH #>
-        if (@($RecordFound.arch) -notcontains $WinArch)
-        {
-            $newArray = @($RecordFound.arch) + $WinArch
-            $Body = @{
-                id = $Id
-                uuid = $RecordFound.uuid
-                featureName = $RecordFound.featurename
-                enabled = $RecordFound.enabled
-                supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
-                supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
-                supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
-            } | ConvertTo-Json
-            Write-Output "<| Test WinArch"
-            Invoke-RestMethod -Uri "${env:API_URI}/v1/windowsoptionalfeature/${Id}" -Method Put -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
-        }
-        else
-        {
-            Write-Output "  => WinArch OK"
-        }
-
-        <# SUPPORTEDWINDOWSEDITIONS #>
-        if (@($RecordFound.supportedWindowsEditions) -notcontains $WinEdition)
-        {
-            $newArray = @($RecordFound.supportedWindowsEditions) + $WinEdition
-            $Body = @{
-                id = $Id
-                uuid = $RecordFound.uuid
-                featureName = $RecordFound.featurename
-                enabled = $RecordFound.enabled
-                arch = @($RecordFound.arch)
-                supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
-                supportedWindowsEditions = $newArray
-                supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
-            } | ConvertTo-Json
-            Write-Output "<| Test SupportedWindowsEditions"
-            Invoke-RestMethod -Uri "${env:API_URI}/v1/windowsoptionalfeature/${Id}" -Method Put -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
-        }
-        else
-        {
-            Write-Output "  => SupportedWindowsEditions OK"
-        }
-
         <# SUPPORTEDWINDOWSVERSIONS #>
         if (@($RecordFound.supportedWindowsVersions) -notcontains $FidoRelease)
         {
@@ -120,7 +77,6 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
                 uuid = $RecordFound.uuid
                 featureName = $RecordFound.featurename
                 enabled = $RecordFound.enabled
-                arch = @($RecordFound.arch)
                 supportedWindowsVersions = $newArray
                 supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
                 supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
@@ -133,6 +89,27 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
             Write-Output "  => SupportedWindowsVersions OK"
         }
 
+        <# SUPPORTEDWINDOWSEDITIONS #>
+        if (@($RecordFound.supportedWindowsEditions) -notcontains $WinEdition)
+        {
+            $newArray = @($RecordFound.supportedWindowsEditions) + $WinEdition
+            $Body = @{
+                id = $Id
+                uuid = $RecordFound.uuid
+                featureName = $RecordFound.featurename
+                enabled = $RecordFound.enabled
+                supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
+                supportedWindowsEditions = $newArray
+                supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
+            } | ConvertTo-Json
+            Write-Output "<| Test SupportedWindowsEditions"
+            Invoke-RestMethod -Uri "${env:API_URI}/v1/windowsoptionalfeature/${Id}" -Method Put -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+        }
+        else
+        {
+            Write-Output "  => SupportedWindowsEditions OK"
+        }
+
         <# SUPPORTEDWINDOWSRELEASES #>
         if (@($RecordFound.supportedWindowsReleases) -notcontains $SupportedWinRelease)
         {
@@ -142,7 +119,6 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
                 uuid = $RecordFound.uuid
                 featureName = $RecordFound.featurename
                 enabled = $RecordFound.enabled
-                arch = @($RecordFound.arch)
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
                 supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
                 supportedWindowsReleases = $newArray
@@ -157,13 +133,13 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
     }
     catch
     {
+        $SupportedWindowsRelease = "v" + $FidoRelease
         $Body = @{
             id = 0
             uuid = [System.Guid]::NewGuid().Guid.ToString()
             featureName = $FeatureName
             enabled = $Enabled
-            arch = @($WinArch)
-            supportedWindowsVersions = @($FidoRelease)
+            supportedWindowsVersions = @($SupportedWindowsRelease)
             supportedWindowsEditions = @($WinEdition)
             supportedWindowsReleases = @($SupportedWinRelease)
         } | ConvertTo-Json
