@@ -18,6 +18,6 @@ jobs:
           command: |
             pwd
 workflows:
-  my-workflow:
+  main-workflow:
     jobs:
       - build

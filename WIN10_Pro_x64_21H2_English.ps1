@@ -37,4 +37,4 @@ New-Item -Path $env:TMP -ItemType Directory -Name "Win${WinRelease}_${FidoReleas
 Mount-WindowsImage -ImagePath $InstallWIM -Index $ImageIndex -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLcid}_${WinArch}_MOUNT" -ReadOnly
 
 <# MAIN API EXEC #>
-Get-OptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLcid}_${WinArch}_MOUNT"
+Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${WinLcid}_${WinArch}_MOUNT"
