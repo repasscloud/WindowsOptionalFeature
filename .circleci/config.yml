@@ -1,0 +1,23 @@
+version: 2.1
+
+orbs:
+  win: circleci/windows@4.1
+
+jobs:
+  build:
+    executor: win/server-2022
+    steps:
+      - checkout
+      - run: 
+          name: Windows Capability Test
+          no_output_timeout: 30m
+          command: pwsh -file WIN10_Pro_x64_21H2_English.ps1
+      - run: 
+          working_directory: ~/
+          name: Run tests
+          command: |
+            pwd
+workflows:
+  my-workflow:
+    jobs:
+      - build
