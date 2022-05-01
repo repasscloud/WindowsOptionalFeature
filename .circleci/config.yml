@@ -9,9 +9,9 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: Windows Capability Test
+          name: Win10/Pro/x64/21H2/English
           no_output_timeout: 30m
-          command: pwsh -file main_exec.ps1
+          command: pwsh -file ./Win10/Pro/x64/21H2/English.ps1
       - run: 
           working_directory: ~/
           name: Run tests

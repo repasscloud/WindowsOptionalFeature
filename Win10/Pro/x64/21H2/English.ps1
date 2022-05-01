@@ -168,7 +168,15 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
             supportedWindowsEditions = @($WinEdition)
             supportedWindowsReleases = @($SupportedWinRelease)
         } | ConvertTo-Json
-        Invoke-RestMethod -Uri "${env:API_URI}/v1/windowsoptionalfeature/${Id}" -Method Post -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+        try
+        {
+            Invoke-RestMethod -Uri "${env:API_URI}/v1/windowsoptionalfeature/${Id}" -Method Post -UseBasicParsing -Body $Body -ContentType 'application/json' -ErrorAction Stop
+        }
+        catch
+        {
+            $errormsg = $_.Exception
+            Write-Warning "Error Message: ${errormsg}"
+        }
     }
 }
 
