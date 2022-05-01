@@ -77,7 +77,6 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
                 uuid = $RecordFound.uuid
                 featureName = $RecordFound.featurename
                 enabled = $RecordFound.enabled
-                arch = $newArray
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
                 supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
                 supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
@@ -174,8 +173,7 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
         }
         catch
         {
-            $errormsg = $_.Exception
-            Write-Warning "Error Message: ${errormsg}"
+            Write-Warning "Error: $($_.Exception)"
         }
     }
 }
