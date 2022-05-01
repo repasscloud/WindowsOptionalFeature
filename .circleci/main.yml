@@ -11,7 +11,7 @@ jobs:
       - run: 
           name: Windows Capability Test
           no_output_timeout: 30m
-          command: pwsh -file WIN10_Pro_x64_21H2_English.ps1
+          command: pwsh -file main_exec.ps1
       - run: 
           working_directory: ~/
           name: Run tests
