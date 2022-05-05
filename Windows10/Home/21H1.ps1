@@ -17,9 +17,9 @@ $CHeaders = @{accept = 'application/json'}
 
 <# CONFIG #>
 [System.String]$WinRelease = "10"
-[System.String]$WinEdition = "Pro"
+[System.String]$WinEdition = "Home"
 [System.String]$WinArch = "x64"
-[System.String]$FidoRelease = "21H2"
+[System.String]$FidoRelease = "21H1"
 [System.String]$WinLcid = "English"
 [System.String]$SupportedWinRelease = "Windows ${WinRelease}"  # WindowsRelease (Windows_7, Windows_8, Windows_8_1, Windows_10, Windows_11) <~ see repasscloud/WindowsCapability/issues/2
 

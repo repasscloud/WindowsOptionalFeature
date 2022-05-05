@@ -4,29 +4,50 @@ orbs:
   win: circleci/windows@4.1
 
 jobs:
-  Win10_Pro_x64_21H1_English:
+  WIN10_Home_21H2:
     executor: win/server-2022
     steps:
       - checkout
       - run: 
-          name: Win10/Pro/x64/21H1/English
+          name: Windows10/Home/21H2
           no_output_timeout: 30m
-          command: pwsh -file ./Win10/Pro/x64/21H1/English.ps1
-  Win10_Pro_x64_21H2_English:
+          command: pwsh -file ./Windows10/Home/21H2.ps1
+  WIN10_Home_21H1:
     executor: win/server-2022
     steps:
       - checkout
       - run: 
-          name: Win10/Pro/x64/21H2/English
+          name: Windows10/Home/21H1
           no_output_timeout: 30m
-          command: pwsh -file ./Win10/Pro/x64/21H2/English.ps1
+          command: pwsh -file ./Windows10/Home/21H1.ps1
+  
+  WIN10_Pro_21H2:
+    executor: win/server-2022
+    steps:
+      - checkout
+      - run: 
+          name: Windows10/Pro/21H2
+          no_output_timeout: 30m
+          command: pwsh -file ./Windows10/Pro/21H2.ps1
+  WIN10_Pro_21H1:
+    executor: win/server-2022
+    steps:
+      - checkout
+      - run: 
+          name: Windows10/Pro/21H1
+          no_output_timeout: 30m
+          command: pwsh -file ./Windows10/Pro/21H1.ps1
+
 workflows:
-  Win10_Pro_x64_21H2:
+  Win10_Pro:
     jobs:
-      - Win10_Pro_x64_21H2_English
-      # - Win10_Pro_x64_21H2_English:
-      #     requires:
-      #       - Win10_Pro_x64_21H1_English
-  Win10_Pro_x64_21H1:
+      - WIN10_Pro_21H2
+      - WIN10_Pro_21H1:
+          requires:
+            - WIN10_Pro_21H2
+  Win10_Home:
     jobs:
-      - Win10_Pro_x64_21H1_English
+      - WIN10_Home_21H2
+      - WIN10_Home_21H1:
+          requires:
+            - WIN10_Home_21H2
