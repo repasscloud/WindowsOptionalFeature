@@ -24,4 +24,6 @@ workflows:
   main-workflow:
     jobs:
       - Win10_Pro_x64_21H1_English
-      - Win10_Pro_x64_21H2_English
+      - Win10_Pro_x64_21H2_English:
+          requires:
+            - Win10_Pro_x64_21H1_English
