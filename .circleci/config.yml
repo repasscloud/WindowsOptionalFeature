@@ -4,7 +4,7 @@ orbs:
   win: circleci/windows@4.1
 
 jobs:
-  build:
+  Win10_Pro_x64_21H2_English:
     executor: win/server-2022
     steps:
       - checkout
@@ -12,12 +12,7 @@ jobs:
           name: Win10/Pro/x64/21H2/English
           no_output_timeout: 30m
           command: pwsh -file ./Win10/Pro/x64/21H2/English.ps1
-      - run: 
-          working_directory: ~/
-          name: Run tests
-          command: |
-            pwd
 workflows:
   main-workflow:
     jobs:
-      - build
+      - Win10_Pro_x64_21H2_English
