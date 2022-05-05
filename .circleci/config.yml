@@ -4,6 +4,14 @@ orbs:
   win: circleci/windows@4.1
 
 jobs:
+  Win10_Pro_x64_21H1_English:
+    executor: win/server-2022
+    steps:
+      - checkout
+      - run: 
+          name: Win10/Pro/x64/21H1/English
+          no_output_timeout: 30m
+          command: pwsh -file ./Win10/Pro/x64/21H1/English.ps1
   Win10_Pro_x64_21H2_English:
     executor: win/server-2022
     steps:
@@ -15,4 +23,5 @@ jobs:
 workflows:
   main-workflow:
     jobs:
+      - Win10_Pro_x64_21H1_English
       - Win10_Pro_x64_21H2_English
