@@ -21,7 +21,7 @@ $CHeaders = @{accept = 'application/json'}
 [System.String]$WinArch = "x64"
 [System.String]$FidoRelease = "21H2"
 [System.String]$WinLcid = "English"
-[System.String]$SupportedWinRelease = "Windows_10"
+[System.String]$SupportedWinRelease = "Windows ${WinRelease}"  # WindowsRelease (Windows_7, Windows_8, Windows_8_1, Windows_10, Windows_11) <~ see repasscloud/WindowsCapability/issues/2
 
 <# SETUP #>
 [System.String]$DownloadLink = & $FidoFile -Win $WinRelease -Rel $FidoRelease -Ed $WinEdition -Lang $WinLcid -Arch $WinArch -GetUrl
@@ -76,7 +76,7 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
                 id = $Id
                 uuid = $RecordFound.uuid
                 featureName = $RecordFound.featurename
-                enabled = $RecordFound.enabled
+                enabled = [System.Boolean]$RecordFound.enabled
                 supportedWindowsVersions = $newArray
                 supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
                 supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
@@ -97,7 +97,7 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
                 id = $Id
                 uuid = $RecordFound.uuid
                 featureName = $RecordFound.featurename
-                enabled = $RecordFound.enabled
+                enabled = [System.Boolean]$RecordFound.enabled
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
                 supportedWindowsEditions = $newArray
                 supportedWindowsReleases = @($RecordFound.supportedWindowsReleases)
@@ -118,7 +118,7 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
                 id = $Id
                 uuid = $RecordFound.uuid
                 featureName = $RecordFound.featurename
-                enabled = $RecordFound.enabled
+                enabled = [System.Boolean]$RecordFound.enabled
                 supportedWindowsVersions = @($RecordFound.supportedWindowsVersions)
                 supportedWindowsEditions = @($RecordFound.supportedWindowsEditions)
                 supportedWindowsReleases = $newArray
@@ -133,12 +133,12 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
     }
     catch
     {
-        $SupportedWindowsRelease = "v" + $FidoRelease
+        $SupportedWindowsRelease = $SupportedWinRelease
         $Body = @{
             id = 0
             uuid = [System.Guid]::NewGuid().Guid.ToString()
             featureName = $FeatureName
-            enabled = $Enabled
+            enabled = [System.Boolean]$Enabled
             supportedWindowsVersions = @($SupportedWindowsRelease)
             supportedWindowsEditions = @($WinEdition)
             supportedWindowsReleases = @($SupportedWinRelease)
