@@ -133,7 +133,7 @@ Get-WindowsOptionalFeature -Path "${env:TMP}\Win${WinRelease}_${FidoRelease}_${W
     }
     catch
     {
-        $SupportedWindowsRelease = $SupportedWinRelease
+        $SupportedWindowsRelease = $FidoRelease
         $Body = @{
             id = 0
             uuid = [System.Guid]::NewGuid().Guid.ToString()
